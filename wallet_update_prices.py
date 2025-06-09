@@ -6,8 +6,8 @@ from io import StringIO
 
 print("Updating Wallet Data")
 
-files = [f for f in os.listdir("./wallet") if "info" not in f and f.endswith(".csv")]
-files = [os.path.join("./wallet", f) for f in files]
+files = [f for f in os.listdir("./data/wallet") if "info" not in f and f.endswith(".csv")]
+files = [os.path.join("./data/wallet", f) for f in files]
 
 for file in files:
     try:

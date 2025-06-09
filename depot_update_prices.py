@@ -22,7 +22,7 @@ isin_url_map = {
 }
 
 # List all CSV files in ./data/depot (excluding "info" files)
-data_folder = "./depot"
+data_folder = "./data/depot"
 files = [f for f in os.listdir(data_folder) if f.endswith(".csv") and "info" not in f]
 
 # Set up headless Chrome
