@@ -84,25 +84,14 @@ for filename in files:
             if datum > maxdate:
                 new_rows.append({'datum': datum, 'preis': preis})
 
-            if new_rows:
-                newdata = pd.DataFrame(new_rows)
-                
-                print(f"📈 {len(new_rows)} new rows for {filename}:")
-                print(newdata.sort_values('datum'))
-            
-                updated = pd.concat([newdata, olddata], ignore_index=True)
-                updated = updated.sort_values(by="datum", ascending=False)
-                
-                updated.to_csv(filepath, index=False)
-                print(f"✅ Successfully updated {filename} with {len(updated)} total rows")
-            
-                # Optional: Show the difference vs old file
-                old_dates = set(olddata['datum'])
-                new_dates = set(newdata['datum'])
-                added_dates = sorted(new_dates - old_dates)
-                print(f"📅 Dates newly added to {filename}:", added_dates)
-            else:
-                print(f"⏩ {filename} is already up-to-date")
+        if new_rows:
+            newdata = pd.DataFrame(new_rows)
+            updated = pd.concat([newdata, olddata], ignore_index=True)
+            updated = updated.sort_values(by="datum", ascending=False)
+            updated.to_csv(filepath, index=False)
+            print(f"✅ Successfully updated {filename}")
+        else:
+            print(f"⏩ {filename} is already up-to-date")
 
     except Exception as e:
         print(f"❌ Error processing {filename}: {e}")
