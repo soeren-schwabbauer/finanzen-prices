@@ -101,12 +101,8 @@ for filename in files:
                 new_dates = set(newdata['datum'])
                 added_dates = sorted(new_dates - old_dates)
                 print(f"📅 Dates newly added to {filename}:", added_dates)
-
-else:
-    print(f"⏩ {filename} is already up-to-date — no new rows.")
-
-        else:
-            print(f"⏩ {filename} is already up-to-date")
+            else:
+                print(f"⏩ {filename} is already up-to-date")
 
     except Exception as e:
         print(f"❌ Error processing {filename}: {e}")
