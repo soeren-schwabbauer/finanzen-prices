@@ -36,10 +36,13 @@ jobs:
         uses: browser-actions/setup-chrome@v1
 
       - name: Run Depot Update
-        run: python depot_update_prices.py
+        run: python 01_depot_update_prices.py
 
       - name: Run Wallet Update
-        run: python wallet_update_prices.py
+        run: python 01_wallet_update_prices.py
+        
+      - name: Bind data
+        run: python 02_join_prices.py
 
       - name: Commit and push changes
         run: |
