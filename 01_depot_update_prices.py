@@ -5,7 +5,7 @@ import pandas as pd
 tickers = {
     "IE00BK5BQT80": "VWCE.DE",   # Vanguard FTSE All-World UCITS ETF
     "IE00B5BMR087": "CSPX.AS",   # iShares Core S&P 500 UCITS ETF
-    "LU0908500753": "LYSE.DE"    # Amundi Core Stoxx Europe 600 UCITS ETF
+    "LU0908500753": "600.PA"     # Amundi STOXX Europe 600 (Nachfolger von Lyxor)
 }
 
 for isin, ticker in tickers.items():
