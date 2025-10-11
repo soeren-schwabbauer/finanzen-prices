@@ -36,7 +36,7 @@ jobs:
 
       # 🟢 Depot Update mit yfinance (kein Selenium mehr)
       - name: 💹 Run Depot Update
-        run: python update_depot_prices.py
+        run: python 01_depot_update_prices.py
 
       - name: 💰 Run Wallet Update
         run: python 01_wallet_update_prices.py
