@@ -2,53 +2,53 @@ name: Update Financial Data
 
 on:
   schedule:
-    - cron: '0 3 * * *'     # once a day at 1 AM UTC
-  workflow_dispatch:       # Allow manual triggering
+    - cron: '0 3 * * 1-5'   # Montag–Freitag um 03:00 UTC (≈ 04:00 MEZ)
+  workflow_dispatch:         # Manuelles Starten möglich
 
 permissions:
   contents: write
-  
+
 jobs:
   update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
+      - name: 📦 Cache pip dependencies
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install Python packages
-        run: pip install -r requirements.txt
+      - name: ⚙️ Install Python packages
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Set up headless Chrome
-        uses: browser-actions/setup-chrome@v1
+      # 🟢 Depot Update mit yfinance (kein Selenium mehr)
+      - name: 💹 Run Depot Update
+        run: python update_depot_prices.py
 
-      - name: Run Depot Update
-        run: python 01_depot_update_prices.py
-
-      - name: Run Wallet Update
+      - name: 💰 Run Wallet Update
         run: python 01_wallet_update_prices.py
         
-      - name: Bind data
+      - name: 🔗 Bind Data
         run: python 02_join_prices.py
 
-      - name: Commit and push changes
+      - name: 🚀 Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/depot/*.csv data/wallet/*.csv prices.csv
+          git add data/depot/*.csv data/wallet/*.csv prices.csv || true
           git commit -m "🔄 Auto-update depot & wallet data" || echo "Nothing to commit"
           git push origin HEAD
         env:
