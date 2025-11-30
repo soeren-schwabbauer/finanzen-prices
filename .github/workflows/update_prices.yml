@@ -2,7 +2,7 @@ name: Update Financial Data
 
 on:
   schedule:
-    - cron: '0 3 * * 1-5'   # Montag–Freitag um 03:00 UTC (≈ 04:00 MEZ)
+    - cron: '0 3 * * 2-6'   # Dienstag–Samstag um 03:00 UTC (≈ 04:00 MEZ)
   workflow_dispatch:         # Manuelles Starten möglich
 
 permissions:
