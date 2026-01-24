@@ -57,3 +57,4 @@ for isin, ticker in tickers.items():
         print(f"✅ Neue Datei erstellt: {path}")
 
 print("\n🏁 Fertig! Alle ETFs wurden aktualisiert.")
+
