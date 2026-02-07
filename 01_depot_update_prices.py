@@ -30,7 +30,7 @@ for isin, ticker in tickers.items():
         print(f"➡️  Lade neue Daten ab {start_date}")
 
         # Nur neue Daten abrufen
-        data = yf.download(ticker, start=start_date, progress=False)
+        data = yf.download(ticker, start=start_date, progress=False, auto_adjust=False)
     else:
         print("🆕 Keine bestehende Datei gefunden – lade alle Daten.")
         data = yf.download(ticker, period="max", progress=False)
