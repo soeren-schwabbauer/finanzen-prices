@@ -20,29 +20,34 @@ for isin, ticker in tickers.items():
     # Pfad zur CSV-Datei
     path = f"{output_dir}/{isin}.csv"
 
-    # 🔍 Prüfe, ob bereits eine Datei existiert
+    # Nur neue Daten abrufen
     if os.path.exists(path):
-        # Alte Daten laden
         old = pd.read_csv(path)
         old["datum"] = pd.to_datetime(old["datum"])
         last_date = old["datum"].max().date()
         start_date = last_date + dt.timedelta(days=1)
+    
         print(f"➡️  Lade neue Daten ab {start_date}")
-
-        # Nur neue Daten abrufen
         data = yf.download(ticker, start=start_date, progress=False, auto_adjust=False)
     else:
         print("🆕 Keine bestehende Datei gefunden – lade alle Daten.")
-        data = yf.download(ticker, period="max", progress=False)
-
+        data = yf.download(ticker, period="max", progress=False, auto_adjust=False)
+    
     # Falls keine neuen Daten vorhanden sind, überspringen
     if data.empty:
         print("⚠️  Keine neuen Daten gefunden.")
         continue
-
+    
+    # MultiIndex-Spalten von yfinance glätten
+    if isinstance(data.columns, pd.MultiIndex):
+        data.columns = data.columns.get_level_values(0)
+    
     # Daten aufbereiten
     data = data.reset_index()
-    data = data[["Date", "Close"]]
+    
+    date_col = "Date" if "Date" in data.columns else data.columns[0]
+    
+    data = data[[date_col, "Close"]]
     data.columns = ["datum", "preis"]
 
     # Wenn alte Datei existiert → zusammenführen
