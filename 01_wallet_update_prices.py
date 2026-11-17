@@ -36,10 +36,16 @@ for file in files:
         newdata.columns = newdata.columns.str.strip()
         newdata = newdata.rename(columns={"Datum": "datum", "Preis": "preis"})
 
-        newdata['datum'] = pd.to_datetime(newdata['datum'], format="%m/%d/%y", errors='coerce')
-        newdata['preis'] = newdata['preis'].replace({'€': '', ',': ''}, regex=True).astype(float)
-        newdata = newdata[['datum', 'preis']]
-
+        newdata['datum'] = pd.to_datetime(newdata['datum'], format="%d-%m-%Y", errors='coerce')
+        newdata['preis'] = (
+            newdata['preis']
+            .replace({r'€': '', r'\.': '', ',': '.'}, regex=True)
+            .str.strip()
+            .astype(float)
+        )
+        print(newdata.head())
+        newdata = newdata[['datum', 'preis']]        
+     
         print("🆕 Neue Daten (min–max):", newdata['datum'].min().date(), "-", newdata['datum'].max().date())
 
         # Nur neue Daten ab entferntem Datum einfügen
