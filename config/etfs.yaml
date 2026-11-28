@@ -1,0 +1,29 @@
+source:
+  provider: alpha_vantage
+  function: TIME_SERIES_DAILY
+  outputsize: compact
+  currency: EUR
+  exchange: XETRA
+
+target:
+  table: workspace.finanzen_prices.etf_daily_closing_prices
+
+secrets:
+  scope: finance
+  key: alpha-vantage
+
+instruments:
+  - isin: IE00BK5BQT80
+    ticker: VWCE.DEX
+    name: Vanguard FTSE All-World UCITS ETF
+    active: true
+
+  - isin: IE00B5BMR087
+    ticker: SXR8.DEX
+    name: iShares Core S&P 500 UCITS ETF
+    active: true
+
+  - isin: LU0908500753
+    ticker: LYP6.DEX
+    name: Amundi STOXX Europe 600 UCITS ETF
+    active: true

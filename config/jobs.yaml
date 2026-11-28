@@ -1,0 +1,11 @@
+jobs:
+  etf_daily_update:
+    name: ETF_Daily_Update
+    notebook: notebooks/update_etf_prices
+    schedule:
+      cron: "0 0 23 ? * MON-FRI"
+      timezone: Europe/Vienna
+      enabled: true
+    max_retries: 0
+    timeout_seconds: 600
+    max_concurrent_runs: 1
